@@ -1,0 +1,279 @@
+#:import Snackbar kivymd.uix.snackbar.Snackbar
+MainScreen:
+    VerifyScreen:
+        name: "VerifyScreen"
+    InnerScreen:
+        name: "InnerScreen"
+    PaymentScreen:
+        name: "PaymentScreen"
+
+<VerifyScreen>:
+    MDCard:
+        orientation: 'vertical'
+        pos_hint: {"center_x": 0.5, "center_y":0.5}
+        size_hint: (0.7,0.6)
+        padding: 25
+        spacing: 25
+        elevation: 15
+
+        MDLabel:
+            text: "Hotel Management"
+            halign: "center"
+            font_size: 32
+
+        MDTextFieldRound:
+            id: user
+            hint_text: "Username"
+            icon_right: "account"
+            size_hint: (0.6, 0.5)
+            pos_hint: {"center_x":0.5}
+            multiline: False
+            font_size: 18
+
+        MDTextFieldRound:
+            id: password
+            hint_text: "Password"
+            icon_right: "eye-off"
+            size_hint: (0.6, 0.5)
+            pos_hint: {"center_x":0.5}
+            font_size: 18
+            multiline: False
+            password: True
+
+        MDRoundFlatButton:
+            text: "Log in"
+            pos_hint: {"center_x":0.5}
+            on_press: root.login()
+            #on_press:
+            #    root.manager.current = 'InnerScreen'
+            #    root.manager.transition.direction = 'left'
+
+        MDRaisedButton:
+            text: "Clear"
+            pos_hint: {"center_x":0.5}
+            on_press: root.clear()
+
+<InnerScreen>:
+    BoxLayout:
+        md_bg_color: app.theme_cls.bg_light
+        orientation: 'vertical'
+        MDToolbar:
+            title: "Management"
+            elevation: 18
+            right_action_items: [["logout", lambda x: root.logout()]]
+
+        MDBottomNavigation:
+            panel_color: 51/255.0, 57/255.0, 61/255.0, 1
+            text_color_active: 255/255.0, 205/255.0, 36/255.0, 1
+            text_color_normal: 66/255.0, 176/255.0, 226/255.0, 1
+            size_hint: (1,0.2)
+            MDBottomNavigationItem:
+                name: "Customers"
+                text: "Customers"
+                font_size: 30
+                icon: "account"
+                MDFloatLayout:
+                    MDLabel:
+                        text: "New Guest"
+                        halign: 'center'
+                        font_size: 30
+                        pos_hint: {"center_x":0.5, "center_y":0.95}
+
+                    MDTextField:
+                        id: guest_name
+                        mode: "rectangle"
+                        required: True
+                        helper_text_mode: "on_error"
+                        hint_text: "Guest Name"
+                        font_size: 26
+                        multiline: False
+                        size_hint: (0.7,0.15)
+                        pos_hint: {"center_x":0.5, "center_y":0.8}
+
+                    MDTextField:
+                        id: guest_email
+                        mode: "rectangle"
+                        required: True
+                        helper_text_mode: "on_error"
+                        hint_text: "Email ID"
+                        font_size: 26
+                        multiline: False
+                        size_hint: (0.7,0.15)
+                        pos_hint: {"center_x":0.5, "center_y":0.6}
+
+                    MDTextField:
+                        id: guest_phone
+                        mode: "rectangle"
+                        required: True
+                        helper_text_mode: "on_error"
+                        hint_text: "Phone Number"
+                        font_size: 26
+                        multiline: False
+                        size_hint: (0.4,0.15)
+                        pos_hint: {"center_x":0.25, "center_y":0.4}
+
+                    MDTextField:
+                        id: guest_member_number
+                        mode: "rectangle"
+                        required: True
+                        helper_text_mode: "on_error"
+                        hint_text: "Number of Members"
+                        font_size: 26
+                        multiline: False
+                        size_hint: (0.4,0.15)
+                        pos_hint: {"center_x":0.75, "center_y":0.4}
+
+                    MDTextField:
+                        id: room
+                        mode: "rectangle"
+                        required: True
+                        helper_text_mode: "on_error"
+                        hint_text: "Room Number"
+                        font_size: 26
+                        multiline: False
+                        size_hint: (0.2,0.15)
+                        pos_hint: {"center_x":0.33, "center_y":0.16}
+
+                    MDRaisedButton:
+                        text: "Submit"
+                        md_bg_color: 44/255.0, 159/255.0, 69/255.0,1
+                        font_size: "24sp"
+                        halign: "center"
+                        elevation: 15
+                        pos_hint: {"center_x":0.66, "center_y":0.15}
+                        on_press: 
+                            root.add_guest()
+            
+            MDBottomNavigationItem:
+                name: "Billing"
+                text: "Billing"
+                font_size: 30
+                icon: "playlist-edit"
+                MDFloatLayout:
+                    MDFloatLayout:
+                        MDTextField:
+                            id: room_num
+                            mode: "rectangle"
+                            hint_text: "Room Number"
+                            font_size: 26
+                            size_hint: (0.3,0.15)
+                            pos_hint: {"center_x":0.25, "center_y":0.9}
+                            on_text_validate: root.get_details()
+
+                        MDTextField:
+                            id: amount
+                            mode: "rectangle"
+                            hint_text: "Amount"
+                            font_size: 26
+                            multiline: False
+                            size_hint: (0.4,0.15)
+                            pos_hint: {"center_x":0.7, "center_y":0.9}
+
+                        MDTextField:
+                            id: name_guest
+                            mode: "rectangle"
+                            hint_text: "Guest Name"
+                            font_size: 26
+                            multiline: False
+                            size_hint: (0.4,0.15)
+                            pos_hint: {"center_x":0.7, "center_y":0.7}
+
+                        MDRaisedButton:
+                            text: "Add Amount"
+                            md_bg_color: 44/255.0, 159/255.0, 69/255.0,1
+                            font_size: "24sp"
+                            halign: "center"
+                            elevation: 15
+                            pos_hint: {"center_x":0.66, "center_y":0.15}
+                            on_press: root.add_amount()
+
+                        MDRaisedButton:
+                            text: "Pay Total Amount"
+                            md_bg_color: 44/255.0, 159/255.0, 69/255.0,1
+                            font_size: "24sp"
+                            halign: "center"
+                            elevation: 15
+                            pos_hint: {"center_x":0.33, "center_y":0.15}
+                            on_press: root.pay_total()
+
+            MDBottomNavigationItem:
+                name: "Records"
+                text: "Records"
+                font_size: 30
+                icon: "cash-multiple"
+                on_tab_press: root.show_records()
+                MDFloatLayout:
+                    ScrollView:
+                        MDList:
+                            id: container
+
+<PaymentScreen>:
+    FloatLayout:
+        MDLabel:
+            text: "Final Payment"
+            font_size: 32
+            size_hint: (0.2,0.8)
+            halign: "center"
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+        MDTextField:
+            id: room
+            mode: "rectangle"
+            hint_text: "Room Number"
+            font_size: 24
+            multiline: False
+            size_hint: (0.3,0.12)
+            pos_hint: {"center_x":0.2, "center_y":0.7}
+            on_text_validate: root.get_details()
+
+        MDTextField:
+            id: name
+            mode: "rectangle"
+            hint_text: "Guest Name"
+            font_size: 24
+            multiline: False
+            size_hint: (0.5,0.12)
+            pos_hint: {"center_x":0.66, "center_y":0.7}
+
+        MDTextField:
+            id: amount
+            mode: "rectangle"
+            hint_text: "Amount"
+            font_size: 24
+            multiline: False
+            size_hint: (0.3,0.12)
+            pos_hint: {"center_x":0.2, "center_y":0.55}
+
+        MDTextField:
+            id: check_in
+            mode: "rectangle"
+            hint_text: "Check In Date"
+            font_size: 24
+            multiline: False
+            size_hint: (0.22,0.12)
+            pos_hint: {"center_x":0.52, "center_y":0.55}
+
+        MDTextField:
+            id: check_out
+            mode: "rectangle"
+            hint_text: "Check Out Date"
+            multiline: False
+            font_size: 24
+            size_hint: (0.22,0.12)
+            pos_hint: {"center_x":0.8, "center_y":0.55}
+
+        MDRoundFlatButton:
+            text: "Submit"
+            font_size: 24
+            size_hint: (0.3,0.1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_press: root.checkout()
+
+        MDFillRoundFlatButton:
+            text: "Back"
+            font_size: 20
+            size_hint: (0.2,0.1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.08}
+            on_press:
+                root.manager.current="InnerScreen"
+                root.manager.transition.direction="left"
